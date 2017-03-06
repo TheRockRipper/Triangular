@@ -5,7 +5,6 @@ public class JumpScript : MonoBehaviour {
 
 	SpriteRenderer sr;
 	LineRenderer lr;
-
 	// Use this for initialization
 	void Start () {
 		//sr = GetComponent<SpriteRenderer> ();
@@ -17,7 +16,8 @@ public class JumpScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		//Vector2 mouseposition = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
-		Debug.Log(lr.GetPosition(1));
+//		Vector2 mouseposition = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
+//		Debug.Log(lr.GetPosition(1));
+//		Debug.Log (mouseposition);
 	}
 }
