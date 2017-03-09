@@ -45,4 +45,3 @@ public class CharacterMovement : MonoBehaviour {
 
 
 }
-//triangleRigidbody.angularVelocity = input.getAxis("Horizontal") * torque;
