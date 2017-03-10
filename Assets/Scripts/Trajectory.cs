@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Trajectory : MonoBehaviour {
 	Vector3 origin, target;
-
+	Vector2 velocityValues;
+	float x,y;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,8 +14,13 @@ public class Trajectory : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		origin = gameObject.transform.position;
-		target = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z));
-		GetParableInitialVelocity (origin, target, 0f);
+		x = Input.mousePosition.x;
+		y = Input.mousePosition.y;
+		target = Camera.main.ScreenToWorldPoint(new Vector3(x, y, 2.0f));
+		Debug.Log ("X position : "+target.x+"\nY position : "+target.y);
+		velocityValues = GetParableInitialVelocity (origin, target, 0f);
+		//Debug.Log ("The x value is : "+velocityValues.x+"\nThe y value is : "+velocityValues.y);
+
 	}
 
 
