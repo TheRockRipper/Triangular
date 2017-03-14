@@ -5,6 +5,7 @@ public class CharacterMovement : MonoBehaviour {
 
 	public float torque;
 	public float jumpForce;
+	public float dirForce;
 	private bool isGrounded;
 	private Rigidbody2D rb;
 
@@ -28,11 +29,15 @@ public class CharacterMovement : MonoBehaviour {
 	}
 		void Update(){
 		//jumpCheck = Input.GetButton ("Jump");
-		if (Input.GetKey(KeyCode.Space) && isGrounded){
+		if (Input.GetKeyDown(KeyCode.Space) && isGrounded){
 			Debug.Log ("Inside first if");
 			if (Input.GetKey (KeyCode.LeftArrow) || Input.GetKey (KeyCode.RightArrow)) {
 				Debug.Log ("Inside second if");
 				rb.AddForce (Vector2.up * jumpForce, ForceMode2D.Impulse);
+				if (Input.GetKey (KeyCode.RightArrow))
+					rb.AddForce (Vector2.right * dirForce, ForceMode2D.Impulse);
+				else if (Input.GetKey (KeyCode.LeftArrow))
+					rb.AddForce (Vector2.left * dirForce, ForceMode2D.Impulse);
 			}
 
 		}
@@ -40,4 +45,3 @@ public class CharacterMovement : MonoBehaviour {
 
 
 }
-//triangleRigidbody.angularVelocity = input.getAxis("Horizontal") * torque;
