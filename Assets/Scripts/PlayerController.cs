@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
+	public Transform target;
 	//Player Variables
 	public float moveSpeed;
 	public float jumpForce;
@@ -18,30 +19,34 @@ public class PlayerController : MonoBehaviour {
 	float angle;
 
 	void Start () {
-		MinZRot = -90.0f;
-		MaxZRot = 90.0f;
+		MinZRot = -180.0f;
+		MaxZRot = 180.0f;
 		ZRot = 0;
 
 		triRb = GetComponent<Rigidbody2D> ();
 	}
 
 	void Update(){
+		//ZRot = -Mathf.Atan2(Input.mousePosition.x - aimLine.position.x, Input.mousePosition.y - aimLine.position.y) * (180 / Mathf.PI);
+		//ZRot = Mathf.Clamp(ZRot, MinZRot, MaxZRot);
+		//aimLine.eulerAngles = new Vector3(aimLine.eulerAngles.x, aimLine.eulerAngles.y, ZRot);
 
-		ZRot = -Mathf.Atan2(Input.mousePosition.x - aimLine.position.x, Input.mousePosition.y - aimLine.position.y) * (180 / Mathf.PI);
-		ZRot = Mathf.Clamp(ZRot, MinZRot, MaxZRot);
-		aimLine.eulerAngles = new Vector3(aimLine.eulerAngles.x, aimLine.eulerAngles.y, ZRot);
-
-		Vector3 targetDir = Input.mousePosition - transform.position;
-		angle = Vector3.Angle( targetDir, transform.right );
+		Vector2 targetDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - target.position;
+		angle = Vector2.Angle( targetDir, transform.right );
 		Debug.Log (angle);
+		//aimLine.LookAt (target);
 	}
 		
 	void FixedUpdate () {
-		float moveHorizontal = Input.GetAxis ("Horizontal");
+		float moveHorizontal = Input.GetAxisRaw ("Horizontal");
 		triRb.angularVelocity = (moveHorizontal * -1) * moveSpeed;
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			//triRb.AddForce (new Vector2(0, 1 * jumpForce),ForceMode2D.Impulse);
+			transform.rotation = Quaternion.identity;
+		}
+
+		if(Input.GetKeyUp(KeyCode.Space)){
 			Jump();
 		}
 	}
@@ -61,4 +66,16 @@ public class PlayerController : MonoBehaviour {
 		// launch the triangle by setting its initial velocity
 		triRb.velocity = globalVelocity;
 	}
-}
+
+	void OnCollisionEnter2D(Collision2D coll) 
+	{
+		
+		if(coll.transform.tag == "platform")
+		{
+			Debug.Log("HIT!");
+
+			transform.position = coll.contacts[0].point;
+		}
+	}
+
+	}
